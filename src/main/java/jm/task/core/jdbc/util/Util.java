@@ -11,10 +11,9 @@ public class Util {
     private static final String password = "root";
     private static final String connectionUrl = "jdbc:mysql://localhost:3306/main";
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         Connection connection = null;
-        try {
-            connection = DriverManager.getConnection(connectionUrl, userName, password);
+        try {connection = DriverManager.getConnection(connectionUrl, userName, password);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
