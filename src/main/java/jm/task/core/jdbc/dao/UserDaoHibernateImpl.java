@@ -18,22 +18,20 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        Session session = factory.getCurrentSession();
+        try(Session session = factory.getCurrentSession()){
         Transaction transaction=session.beginTransaction();
         Query query = session.createSQLQuery("CREATE TABLE IF NOT EXISTS User(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(64), lastName VARCHAR(64), age INT)").addEntity(User.class);
         query.executeUpdate();
-        transaction.commit();
-        session.close();
+        transaction.commit();}
     }
 
     @Override
     public void dropUsersTable() {
-        Session session = factory.getCurrentSession();
+        try(Session session = factory.getCurrentSession()){
         Transaction transaction= session.beginTransaction();
         Query query = session.createSQLQuery("DROP TABLE IF EXISTS User");
         query.executeUpdate();
-        transaction.commit();
-        session.close();
+        transaction.commit();}
     }
 
     @Override
@@ -54,12 +52,11 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
-        Session session = factory.getCurrentSession();
+        try(Session session = factory.getCurrentSession()){
         Transaction transaction = session.beginTransaction();
         User user=session.get(User.class, id);
         session.remove(user);
-        transaction.commit();
-        session.close();
+        transaction.commit();}
     }
 
     @Override
@@ -71,11 +68,10 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
-        Session session = factory.getCurrentSession();
+        try (Session session = factory.getCurrentSession()){
         Transaction transaction= session.beginTransaction();
         session.createSQLQuery("DELETE  FROM User").executeUpdate();
         transaction.commit();
-        session.close();
-
+        }
     }
 }
